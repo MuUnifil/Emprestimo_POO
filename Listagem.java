@@ -1,49 +1,43 @@
-import java.util.Scanner;
+public void Listar(){
 
-public class Equipamentos {
+        private void emprestados(ArrayList<Equipamento> equipamentos) {
+        }
 
-    public static void main(String[] args) {
-        listarEquipamentos();
-    }
+        private void disponiveis(ArrayList<Equipamento> equipamentos) {
+        }
 
-    private static void emprestados() {
-    }
+        private void manutencao(ArrayList<Equipamento> equipamentos) {
+        }
 
-    private static void disponiveis() {
-    }
+        private void baixados(ArrayList<Equipamento> equipamentos) {
+        }
 
-    private static void manutencao() {
-    }
+        private void listagem(ArrayList<Equipamento> equipamentos) {
+            System.out.println("\n1- Equipamentos emprestados e com quem está");
+            System.out.println("2- Equipamentos disponíveis para empréstimo");
+            System.out.println("3- Equipamentos em manutenção");
+            System.out.println("4- Equipamentos baixados");
+            System.out.println("\nO que você deseja ver? (Digite o número da opção)");
 
-    private static void baixados() {
-    }
+            String escolha = scanner.nextLine().trim();
 
-    private static void listagem(Scanner scanner) {
-        System.out.println("\n1- Equipamentos emprestados e com quem está");
-        System.out.println("2- Equipamentos disponíveis para empréstimo");
-        System.out.println("3- Equipamentos em manutenção");
-        System.out.println("4- Equipamentos baixados");
-        System.out.println("\nO que você deseja ver? (Digite o número da opção)");
-
-        String escolha = scanner.nextLine().trim();
-
-        switch (escolha) {
-            case "1":
-                emprestados(matriz);
-                break;
-            case "2":
-                disponiveis(matriz);
-                break;
-            case "3":
-                manutencao(matriz);
-                break;
-            case "4":
-                baixados(matriz);
-                break;
-            default:
-                System.out.println("Opção inválida. Por favor, digite um número de 1 a 4.");
-                listagem(matriz, scanner);
-                break;
+            switch (escolha) {
+                case "1":
+                    emprestados(equipamentos);
+                    break;
+                case "2":
+                    disponiveis(equipamentos);
+                    break;
+                case "3":
+                    manutencao(equipamentos);
+                    break;
+                case "4":
+                    baixados(equipamentos);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Por favor, digite um número de 1 a 4.");
+                    listagem(equipamentos);
+                    break;
+            }
         }
     }
-}
