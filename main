@@ -1,0 +1,128 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class main {
+
+    ArrayList<Cliente> clientes = new ArrayList<>();
+    ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+    ArrayList<Equipamento> equipamentos = new ArrayList<>();
+
+    public class Cliente{
+        private String nome;
+        private String cpf;
+        private String email;
+        private String celular;
+
+        public Cliente(String nome, String cpf, String email, String celular){
+            this.nome=nome;
+            this.cpf=cpf;
+            this.email=email;
+            this.celular=celular;
+        }
+    }
+
+    public class Emprestimo{
+        private String responsavel;
+
+        public Emprestimo(String hora, String responsavel){
+            this.responsavel=responsavel;
+        }
+    }
+
+    public class Equipamento{
+        private String codigo;
+        private String descricao;
+        private String status;
+        private String situacao;
+
+        public Equipamento(String codigo, String descricao, String status, String situacao){
+            this.codigo=codigo;
+            this.descricao=descricao;
+            this.status=status;
+            this.situacao=situacao;
+        }
+    }
+
+    public void Listar(){
+
+        private void emprestados(ArrayList<Equipamento> equipamentos) {
+        }
+
+        private void disponiveis(ArrayList<Equipamento> equipamentos) {
+        }
+
+        private void manutencao(ArrayList<Equipamento> equipamentos) {
+        }
+
+        private void baixados(ArrayList<Equipamento> equipamentos) {
+        }
+
+        private void listagem(ArrayList<Equipamento> equipamentos) {
+            System.out.println("\n1- Equipamentos emprestados e com quem está");
+            System.out.println("2- Equipamentos disponíveis para empréstimo");
+            System.out.println("3- Equipamentos em manutenção");
+            System.out.println("4- Equipamentos baixados");
+            System.out.println("\nO que você deseja ver? (Digite o número da opção)");
+
+            String escolha = scanner.nextLine().trim();
+
+            switch (escolha) {
+                case "1":
+                    emprestados(equipamentos);
+                    break;
+                case "2":
+                    disponiveis(equipamentos);
+                    break;
+                case "3":
+                    manutencao(equipamentos);
+                    break;
+                case "4":
+                    baixados(equipamentos);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Por favor, digite um número de 1 a 4.");
+                    listagem(equipamentos);
+                    break;
+            }
+        }
+    }
+
+    public void adicionarPessoa(){}
+    public void cadastrarEquipamento(){}
+    public void logicaEmprestimo(){}
+    public void devolver_equipamento(){}
+
+    public class Menu
+    {
+        public void Menu() {
+            int menu = 1;
+            Scanner scanner = new Scanner(System.in);
+
+            while (menu != 0){
+                System.out.println("Seja bem vindo a central de emprestimos, o que deseja fazer ?! \n 1. Cadastrar Funcionário\n 2. Cadastrar Equipamento\n 3. Emprestar Equipamento\n 4. Devolver Equipamento\n 5. Listar Equipamentos\n 0. Sair");
+
+                menu = scanner.nextInt();
+
+                if (menu == 1){
+                    adicionarPessoa();}
+                else if (menu == 2){
+                    cadastrarEquipamento();}
+                else if (menu == 3){
+                    logicaEmprestimo();}
+                else if (menu == 4){
+                    devolver_equipamento();}
+                else if (menu == 5){
+                    Listar();}
+                else if (menu == 6){
+                    System.out.println("Saindo...");}
+                else{
+                    System.out.print("\nO que você digitou está errado, digite um dos numeros pedidos");}
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+    }
+    
+}
