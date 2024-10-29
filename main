@@ -1,128 +1,347 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class main {
-
+public class Main {
     ArrayList<Cliente> clientes = new ArrayList<>();
-    ArrayList<Emprestimo> emprestimos = new ArrayList<>();
-    ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    ArrayList<Equipamento> aparelhos = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
 
-    public class Cliente{
+    public static void main(String[] args) {
+        new Menu(); // Chama o menu
+    }
+
+    public class Cliente {
         private String nome;
         private String cpf;
         private String email;
         private String celular;
 
-        public Cliente(String nome, String cpf, String email, String celular){
-            this.nome=nome;
-            this.cpf=cpf;
-            this.email=email;
-            this.celular=celular;
+        public Cliente(String nome, String cpf, String email, String celular) {
+            this.nome = nome;
+            this.cpf = cpf;
+            this.email = email;
+            this.celular = celular;
         }
     }
 
-    public class Emprestimo{
-        private String responsavel;
+    public class Emprestimo {
+        private String codigoEquipamento;
+        private String codigoCliente;
 
-        public Emprestimo(String hora, String responsavel){
-            this.responsavel=responsavel;
+        public Emprestimo(String codigoEquipamento, String codigoCliente) {
+            this.codigoEquipamento = codigoEquipamento;
+            this.codigoCliente = codigoCliente;
         }
     }
 
-    public class Equipamento{
+    public class Equipamento {
         private String codigo;
         private String descricao;
-        private String status;
+        private String status; // Alterado para refletir a situação
         private String situacao;
 
-        public Equipamento(String codigo, String descricao, String status, String situacao){
-            this.codigo=codigo;
-            this.descricao=descricao;
-            this.status=status;
-            this.situacao=situacao;
+        public Equipamento(String codigo, String descricao, String status, String situacao) {
+            this.codigo = codigo;
+            this.descricao = descricao;
+            this.status = status;
+            this.situacao = situacao;
+        }
+
+        public String getCodigo() {
+            return codigo;
+        }
+
+        public String getStatus() { // Corrigido para getStatus
+            return status;
+        }
+
+        public String getSituacao() {
+            return situacao;
+        }
+
+        public void setstatus(String status) {
+            this.status = status;
+        }
+
+        public void imprimirDetalhes() {
+            System.out.println("Código: " + codigo);
+            System.out.println("Descrição: " + descricao);
+            System.out.println("Status: " + status);
+            System.out.println("Situação: " + situacao);
+            System.out.println("----------------------");
         }
     }
 
-    public void Listar(){
+    public void Listar() {
+        listagem(aparelhos);
+    }
 
-        private void emprestados(ArrayList<Equipamento> equipamentos) {
-        }
+    private void emprestados(ArrayList<Equipamento> aparelhos) {
+        boolean encontrouEmprestado = false;
 
-        private void disponiveis(ArrayList<Equipamento> equipamentos) {
-        }
-
-        private void manutencao(ArrayList<Equipamento> equipamentos) {
-        }
-
-        private void baixados(ArrayList<Equipamento> equipamentos) {
-        }
-
-        private void listagem(ArrayList<Equipamento> equipamentos) {
-            System.out.println("\n1- Equipamentos emprestados e com quem está");
-            System.out.println("2- Equipamentos disponíveis para empréstimo");
-            System.out.println("3- Equipamentos em manutenção");
-            System.out.println("4- Equipamentos baixados");
-            System.out.println("\nO que você deseja ver? (Digite o número da opção)");
-
-            String escolha = scanner.nextLine().trim();
-
-            switch (escolha) {
-                case "1":
-                    emprestados(equipamentos);
-                    break;
-                case "2":
-                    disponiveis(equipamentos);
-                    break;
-                case "3":
-                    manutencao(equipamentos);
-                    break;
-                case "4":
-                    baixados(equipamentos);
-                    break;
-                default:
-                    System.out.println("Opção inválida. Por favor, digite um número de 1 a 4.");
-                    listagem(equipamentos);
-                    break;
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getStatus().equals("emprestado")) {
+                encontrouEmprestado = true;
+                equipamento.imprimirDetalhes();
             }
         }
+
+        if (!encontrouEmprestado) {
+            System.out.println("Nenhum equipamento está emprestado no momento.");
+        }
     }
 
-    public void adicionarPessoa(){}
-    public void cadastrarEquipamento(){}
-    public void logicaEmprestimo(){}
-    public void devolver_equipamento(){}
+    private void disponiveis(ArrayList<Equipamento> aparelhos) {
+        boolean encontrouDisponivel = false;
 
-    public class Menu
-    {
-        public void Menu() {
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getStatus().equals("disponível")) {
+                encontrouDisponivel = true;
+                equipamento.imprimirDetalhes();
+            }
+        }
+
+        if (!encontrouDisponivel) {
+            System.out.println("Nenhum equipamento está disponível no momento.");
+        }
+    }
+
+    private void manutencao(ArrayList<Equipamento> aparelhos) {
+        boolean encontrouManutencao = false;
+
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getStatus().equals("manutencao")) {
+                encontrouManutencao = true;
+                equipamento.imprimirDetalhes();
+            }
+        }
+
+        if (!encontrouManutencao) {
+            System.out.println("Nenhum equipamento está em manutenção no momento.");
+        }
+    }
+
+    private void baixados(ArrayList<Equipamento> aparelhos) {
+        boolean encontrouBaixado = false;
+
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getSituacao().equals("baixado")) {
+                encontrouBaixado = true;
+                equipamento.imprimirDetalhes();
+            }
+        }
+
+        if (!encontrouBaixado) {
+            System.out.println("Nenhum equipamento está baixado no momento.");
+        }
+    }
+
+    private void listagem(ArrayList<Equipamento> aparelhos) {
+        System.out.println("\n1- Equipamentos emprestados e com quem está");
+        System.out.println("2- Equipamentos disponíveis para empréstimo");
+        System.out.println("3- Equipamentos em manutenção");
+        System.out.println("4- Equipamentos baixados");
+        System.out.println("\nO que você deseja ver? (Digite o número da opção)");
+
+        String escolha = scanner.nextLine().trim();
+
+        switch (escolha) {
+            case "1":
+                emprestados(aparelhos);
+                break;
+            case "2":
+                disponiveis(aparelhos);
+                break;
+            case "3":
+                manutencao(aparelhos);
+                break;
+            case "4":
+                baixados(aparelhos);
+                break;
+            default:
+                System.out.println("Opção inválida. Por favor, digite um número de 1 a 4.");
+                listagem(aparelhos);
+                break;
+        }
+    }
+
+    public void adicionarPessoa() {
+        System.out.println("Digite o nome:");
+        String nome = scanner.nextLine();
+
+        System.out.println("Digite o CPF:");
+        String cpf = scanner.nextLine();
+
+        System.out.println("Digite o email:");
+        String email = scanner.nextLine();
+
+        System.out.println("Digite o celular:");
+        String celular = scanner.nextLine();
+
+        // Cria uma nova instância de Cliente e adiciona à lista de clientes
+        Cliente novoCliente = new Cliente(nome, cpf, email, celular);
+        clientes.add(novoCliente);
+
+        System.out.println("Cliente adicionado com sucesso!");
+    }
+
+    public void cadastrarEquipamento() {
+        System.out.println("Digite o código do equipamento:");
+        String codigo = scanner.nextLine();
+
+        System.out.println("Digite a descrição do equipamento:");
+        String descricao = scanner.nextLine();
+
+        System.out.println("Digite o status do equipamento (d para Disponível, e para Emprestado, m para Manutenção): ");
+        String status = scanner.nextLine();
+        if (status.equals("d")) {
+            status = "disponível";
+        } else if (status.equals("e")) {
+            status = "emprestado";
+        } else if (status.equals("m")) {
+            status = "manutenção";
+        } else {
+            System.out.println("Status inválido. Por favor, digite 'd' para disponível, 'e' para emprestado ou 'm' para manutenção.");
+            return; // Saia do método se o status for inválido
+        }
+
+        System.out.println("Digite a situação do equipamento (n para Novo, u para Usado, d para Defeito, b para Baixado):");
+        String situacao = scanner.nextLine();
+        if (situacao.equals("n")) {
+            situacao = "novo";
+        } else if (situacao.equals("u")) {
+            situacao = "usado";
+        } else if (situacao.equals("d")) {
+            situacao = "defeito";
+        } else if (situacao.equals("b")) {
+            situacao = "baixado";
+        } else {
+            System.out.println("Estado inválido. Por favor, digite 'n' para novo, 'u' para usado, 'd' para defeito ou 'b' para baixado.");
+            return; // Saia do método se a situação for inválida
+        }
+
+        // Instância de Equipamento adicionada à lista de equipamentos
+        Equipamento novoEquipamento = new Equipamento(codigo, descricao, status, situacao);
+        aparelhos.add(novoEquipamento);
+
+        System.out.println("Equipamento cadastrado com sucesso!");
+    }
+
+    public void logicaEmprestimo() {
+        boolean temDisponivel = false;
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getStatus().equals("disponível")) {
+                temDisponivel = true;
+                break;
+            }
+        }
+
+        if (!temDisponivel) {
+            System.out.println("Nenhum equipamento disponível para empréstimo.\n");
+            return; 
+        }
+        
+        disponiveis(aparelhos);
+        System.out.println("Selecione o equipamento que você deseja emprestar!");
+       
+        System.out.println("Digite o código do equipamento que você deseja emprestar:");
+        String codigoSelecionado = scanner.nextLine();
+
+        boolean equipamentoEncontrado = false;
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getCodigo().equals(codigoSelecionado) && equipamento.getStatus().equals("disponível")) {
+                equipamento.setstatus("emprestado");
+                System.out.println("Equipamento " + equipamento.getCodigo() + " foi emprestado com sucesso.");
+                equipamentoEncontrado = true;
+                break;
+            }
+        }
+
+        if (!equipamentoEncontrado) {
+            System.out.println("Equipamento não encontrado ou já está emprestado.");
+        }
+    }
+
+    public void devolver_equipamento() {
+        boolean temEmprestado = false;
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getStatus().equals("emprestado")) {
+                temEmprestado = true;
+                break;
+            }
+        }
+
+        if (!temEmprestado) {
+            System.out.println("Nenhum equipamento para ser devolvido.\n");
+            return; 
+        }
+            
+        System.out.println("Digite o código do equipamento a ser devolvido:");
+        String codigo = scanner.nextLine();
+
+        boolean equipamentoEncontrado = false;
+
+        for (Equipamento equipamento : aparelhos) {
+            if (equipamento.getCodigo().equals(codigo)) {
+                if (equipamento.getStatus().equals("emprestado")) {
+                    equipamento.setstatus("disponível");
+                    System.out.println("Equipamento devolvido e agora está disponível para empréstimo.");
+                } else {
+                    System.out.println("O equipamento já está disponível ou não está emprestado.");
+                }
+                equipamentoEncontrado = true;
+                break;
+            }
+        }
+
+        if (!equipamentoEncontrado) {
+            System.out.println("Equipamento com o código fornecido não encontrado.");
+        }
+    }
+
+    static class Menu {
+        public Menu() {
             int menu = 1;
             Scanner scanner = new Scanner(System.in);
+            Main main = new Main();
 
-            while (menu != 0){
-                System.out.println("Seja bem vindo a central de emprestimos, o que deseja fazer ?! \n 1. Cadastrar Funcionário\n 2. Cadastrar Equipamento\n 3. Emprestar Equipamento\n 4. Devolver Equipamento\n 5. Listar Equipamentos\n 0. Sair");
+            while (menu != 0) {
+                System.out.println("Seja bem-vindo à central de empréstimos, o que deseja fazer?\n" +
+                                   "1. Cadastrar Cliente\n" +
+                                   "2. Cadastrar Equipamento\n" +
+                                   "3. Emprestar Equipamento\n" +
+                                   "4. Devolver Equipamento\n" +
+                                   "5. Listar Equipamentos\n" +
+                                   "0. Sair");
 
                 menu = scanner.nextInt();
+                scanner.nextLine(); // Limpar o buffer
 
-                if (menu == 1){
-                    adicionarPessoa();}
-                else if (menu == 2){
-                    cadastrarEquipamento();}
-                else if (menu == 3){
-                    logicaEmprestimo();}
-                else if (menu == 4){
-                    devolver_equipamento();}
-                else if (menu == 5){
-                    Listar();}
-                else if (menu == 6){
-                    System.out.println("Saindo...");}
-                else{
-                    System.out.print("\nO que você digitou está errado, digite um dos numeros pedidos");}
+                switch (menu) {
+                    case 1:
+                        main.adicionarPessoa();
+                        break;
+                    case 2:
+                        main.cadastrarEquipamento();
+                        break;
+                    case 3:
+                        main.logicaEmprestimo();
+                        break;
+                    case 4:
+                        main.devolver_equipamento();
+                        break;
+                    case 5:
+                        main.Listar();
+                        break;
+                    case 0:
+                        System.out.println("Saindo...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida. Por favor, selecione uma opção válida.");
+                        break;
+                }
             }
+            scanner.close();
         }
     }
-
-    public static void main(String[] args) {
-
-    }
-    
 }
