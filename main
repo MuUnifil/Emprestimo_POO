@@ -24,27 +24,19 @@ public class Main {
         }
     }
 
-    public class Emprestimo {
-        private String codigoEquipamento;
-        private String codigoCliente;
-
-        public Emprestimo(String codigoEquipamento, String codigoCliente) {
-            this.codigoEquipamento = codigoEquipamento;
-            this.codigoCliente = codigoCliente;
-        }
-    }
-
     public class Equipamento {
         private String codigo;
         private String descricao;
         private String status;
         private String situacao;
+        private String responsavel;
 
-        public Equipamento(String codigo, String descricao, String status, String situacao) {
+        public Equipamento(String codigo, String descricao, String status, String situacao, String responsavel) {
             this.codigo = codigo;
             this.descricao = descricao;
             this.status = status;
             this.situacao = situacao;
+            this.responsavel = responsavel;
         }
 
         public String getCodigo() {
@@ -62,12 +54,17 @@ public class Main {
         public void setStatus(String status) {
             this.status = status;
         }
+        
+        public void setResponsavel(String responsavel) {
+            this.responsavel = responsavel;
+        }
 
         public void imprimirDetalhes() {
             System.out.println("Código: " + codigo);
             System.out.println("Descrição: " + descricao);
             System.out.println("Status: " + status);
             System.out.println("Situação: " + situacao);
+            System.out.println("Responsavel: " + responsavel);
             System.out.println("----------------------");
         }
     }
@@ -235,26 +232,29 @@ public class Main {
     }
 
     public void logicaEmprestimo() {
-        disponiveis(aparelhos);
-        System.out.println("Selecione o equipamento que você deseja emprestar!");
+    disponiveis(aparelhos);
 
-        System.out.println("Digite o código do equipamento que você deseja emprestar:");
-        String codigoSelecionado = scanner.nextLine();
+    System.out.print("Digite o nome do responsável pelo empréstimo: ");
+    String nomeResponsavel = scanner.nextLine();
 
-        boolean equipamentoEncontrado = false;
-        for (Equipamento equipamento : aparelhos) {
-            if (equipamento.getCodigo().equals(codigoSelecionado) && equipamento.getStatus().equals("disponível")) {
-                equipamento.setStatus("emprestado");
-                System.out.println("Equipamento " + equipamento.getCodigo() + " foi emprestado com sucesso.");
-                equipamentoEncontrado = true;
-                break;
-            }
-        }
+    System.out.println("Digite o código do equipamento que você deseja emprestar:");
+    String codigoSelecionado = scanner.nextLine();
 
-        if (!equipamentoEncontrado) {
-            System.out.println("Equipamento não encontrado ou já está emprestado.");
+    boolean equipamentoEncontrado = false;
+    for (Equipamento equipamento : aparelhos) {
+        if (equipamento.getCodigo().equals(codigoSelecionado) && equipamento.getStatus().equals("disponível")) {
+            equipamento.setStatus("emprestado");
+            equipamento.setResponsavel(nomeResponsavel); // Define o responsável
+            System.out.println("Equipamento " + equipamento.getCodigo() + " foi emprestado com sucesso para " + nomeResponsavel + ".");
+            equipamentoEncontrado = true;
+            break;
         }
     }
+
+    if (!equipamentoEncontrado) {
+        System.out.println("Equipamento não encontrado ou já está emprestado.");
+    }
+}
 
     public void devolverEquipamento() {
         System.out.println("Digite o código do equipamento a ser devolvido:");
