@@ -1,3 +1,7 @@
+public void listar() {
+        listagem(aparelhos);
+    }
+
 private void emprestados(ArrayList<Equipamento> aparelhos) {
         boolean encontrouEmprestado = false;
 
