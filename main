@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    ArrayList<Cliente> clientes = new ArrayList<>();
-    ArrayList<Equipamento> aparelhos = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
+    private ArrayList<Cliente> clientes = new ArrayList<>();
+    private ArrayList<Equipamento> aparelhos = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        new Menu(); // Chama o menu
+        new Menu(new Main()); // Passa a instância de Main para o Menu
     }
 
     public class Cliente {
@@ -37,7 +37,7 @@ public class Main {
     public class Equipamento {
         private String codigo;
         private String descricao;
-        private String status; // Alterado para refletir a situação
+        private String status;
         private String situacao;
 
         public Equipamento(String codigo, String descricao, String status, String situacao) {
@@ -51,7 +51,7 @@ public class Main {
             return codigo;
         }
 
-        public String getStatus() { // Corrigido para getStatus
+        public String getStatus() {
             return status;
         }
 
@@ -59,7 +59,7 @@ public class Main {
             return situacao;
         }
 
-        public void setstatus(String status) {
+        public void setStatus(String status) {
             this.status = status;
         }
 
@@ -72,7 +72,7 @@ public class Main {
         }
     }
 
-    public void Listar() {
+    public void listar() {
         listagem(aparelhos);
     }
 
@@ -178,7 +178,6 @@ public class Main {
         System.out.println("Digite o celular:");
         String celular = scanner.nextLine();
 
-        // Cria uma nova instância de Cliente e adiciona à lista de clientes
         Cliente novoCliente = new Cliente(nome, cpf, email, celular);
         clientes.add(novoCliente);
 
@@ -194,33 +193,41 @@ public class Main {
 
         System.out.println("Digite o status do equipamento (d para Disponível, e para Emprestado, m para Manutenção): ");
         String status = scanner.nextLine();
-        if (status.equals("d")) {
-            status = "disponível";
-        } else if (status.equals("e")) {
-            status = "emprestado";
-        } else if (status.equals("m")) {
-            status = "manutenção";
-        } else {
-            System.out.println("Status inválido. Por favor, digite 'd' para disponível, 'e' para emprestado ou 'm' para manutenção.");
-            return; // Saia do método se o status for inválido
+        switch (status) {
+            case "d":
+                status = "disponível";
+                break;
+            case "e":
+                status = "emprestado";
+                break;
+            case "m":
+                status = "manutenção";
+                break;
+            default:
+                System.out.println("Status inválido. Por favor, digite 'd' para disponível, 'e' para emprestado ou 'm' para manutenção.");
+                return; // Saia do método se o status for inválido
         }
 
         System.out.println("Digite a situação do equipamento (n para Novo, u para Usado, d para Defeito, b para Baixado):");
         String situacao = scanner.nextLine();
-        if (situacao.equals("n")) {
-            situacao = "novo";
-        } else if (situacao.equals("u")) {
-            situacao = "usado";
-        } else if (situacao.equals("d")) {
-            situacao = "defeito";
-        } else if (situacao.equals("b")) {
-            situacao = "baixado";
-        } else {
-            System.out.println("Estado inválido. Por favor, digite 'n' para novo, 'u' para usado, 'd' para defeito ou 'b' para baixado.");
-            return; // Saia do método se a situação for inválida
+        switch (situacao) {
+            case "n":
+                situacao = "novo";
+                break;
+            case "u":
+                situacao = "usado";
+                break;
+            case "d":
+                situacao = "defeito";
+                break;
+            case "b":
+                situacao = "baixado";
+                break;
+            default:
+                System.out.println("Estado inválido. Por favor, digite 'n' para novo, 'u' para usado, 'd' para defeito ou 'b' para baixado.");
+                return; // Saia do método se a situação for inválida
         }
 
-        // Instância de Equipamento adicionada à lista de equipamentos
         Equipamento novoEquipamento = new Equipamento(codigo, descricao, status, situacao);
         aparelhos.add(novoEquipamento);
 
@@ -228,29 +235,16 @@ public class Main {
     }
 
     public void logicaEmprestimo() {
-        boolean temDisponivel = false;
-        for (Equipamento equipamento : aparelhos) {
-            if (equipamento.getStatus().equals("disponível")) {
-                temDisponivel = true;
-                break;
-            }
-        }
-
-        if (!temDisponivel) {
-            System.out.println("Nenhum equipamento disponível para empréstimo.\n");
-            return; 
-        }
-        
         disponiveis(aparelhos);
         System.out.println("Selecione o equipamento que você deseja emprestar!");
-       
+
         System.out.println("Digite o código do equipamento que você deseja emprestar:");
         String codigoSelecionado = scanner.nextLine();
 
         boolean equipamentoEncontrado = false;
         for (Equipamento equipamento : aparelhos) {
             if (equipamento.getCodigo().equals(codigoSelecionado) && equipamento.getStatus().equals("disponível")) {
-                equipamento.setstatus("emprestado");
+                equipamento.setStatus("emprestado");
                 System.out.println("Equipamento " + equipamento.getCodigo() + " foi emprestado com sucesso.");
                 equipamentoEncontrado = true;
                 break;
@@ -262,20 +256,7 @@ public class Main {
         }
     }
 
-    public void devolver_equipamento() {
-        boolean temEmprestado = false;
-        for (Equipamento equipamento : aparelhos) {
-            if (equipamento.getStatus().equals("emprestado")) {
-                temEmprestado = true;
-                break;
-            }
-        }
-
-        if (!temEmprestado) {
-            System.out.println("Nenhum equipamento para ser devolvido.\n");
-            return; 
-        }
-            
+    public void devolverEquipamento() {
         System.out.println("Digite o código do equipamento a ser devolvido:");
         String codigo = scanner.nextLine();
 
@@ -284,7 +265,7 @@ public class Main {
         for (Equipamento equipamento : aparelhos) {
             if (equipamento.getCodigo().equals(codigo)) {
                 if (equipamento.getStatus().equals("emprestado")) {
-                    equipamento.setstatus("disponível");
+                    equipamento.setStatus("disponível");
                     System.out.println("Equipamento devolvido e agora está disponível para empréstimo.");
                 } else {
                     System.out.println("O equipamento já está disponível ou não está emprestado.");
@@ -300,10 +281,12 @@ public class Main {
     }
 
     static class Menu {
-        public Menu() {
+        private Main main;
+
+        public Menu(Main main) {
+            this.main = main; // Armazena a instância de Main passada
             int menu = 1;
             Scanner scanner = new Scanner(System.in);
-            Main main = new Main();
 
             while (menu != 0) {
                 System.out.println("Seja bem-vindo à central de empréstimos, o que deseja fazer?\n" +
@@ -328,10 +311,10 @@ public class Main {
                         main.logicaEmprestimo();
                         break;
                     case 4:
-                        main.devolver_equipamento();
+                        main.devolverEquipamento();
                         break;
                     case 5:
-                        main.Listar();
+                        main.listar();
                         break;
                     case 0:
                         System.out.println("Saindo...");
