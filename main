@@ -225,7 +225,7 @@ public class Main {
                 return; // Saia do método se a situação for inválida
         }
 
-        Equipamento novoEquipamento = new Equipamento(codigo, descricao, status, situacao);
+        Equipamento novoEquipamento = new Equipamento(codigo, descricao, status, situacao, "");
         aparelhos.add(novoEquipamento);
 
         System.out.println("Equipamento cadastrado com sucesso!");
